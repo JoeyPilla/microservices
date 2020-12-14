@@ -1,0 +1,49 @@
+version: "3"
+
+services:
+  post-database:
+    image: postgres
+    restart: always
+    env_file:
+      - postService/.env
+    ports:
+      - 5481:5432
+    volumes:
+      - post-data:/var/lib/postgresql/post
+  post-service:
+    build: ./postService
+    ports: 
+      - "8081:8081"
+    depends_on:
+      - "post-database"
+  comment-database:
+    image: postgres
+    restart: always
+    env_file:
+      - commentService/.env
+    ports:
+      - 5482:5432
+    volumes:
+      - comment-data:/var/lib/postgresql/comment
+  comment-service:
+    build: ./commentService
+    ports: 
+      - "8082:8082"
+    depends_on:
+      - "comment-database"
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+    volumes:
+       - pgadmin:/root/.pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    restart: unless-stopped
+
+volumes:
+    post-data:
+    comment-data:
+    pgadmin:
