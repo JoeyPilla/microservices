@@ -1,6 +1,10 @@
 version: "3"
 
 services:
+  front-end:
+    build: ./frontend
+    ports: 
+      - "8080:3000"
   post-database:
     image: postgres
     restart: always
@@ -41,7 +45,7 @@ services:
     expose:
       - 5483
     volumes:
-      - comment-data:/var/lib/postgresql/comment
+      - user-data:/var/lib/postgresql/user
     command: -p 5483
   user-service:
     build: ./userService
@@ -64,4 +68,5 @@ services:
 volumes:
     post-data:
     comment-data:
+    user-data:
     pgadmin:

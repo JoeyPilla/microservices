@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"github.com/google/uuid"
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
 	"log"
@@ -42,5 +43,6 @@ func main() {
 }
 
 func Hello(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintln(w, "Hello from the posts!")
+	id := uuid.New()
+	fmt.Fprintln(w, id.String())
 }
