@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	host     = "localhost"
+	host     = "comment-database"
 	port     = 5482
 	user     = "comment"
 	password = "comment_password"

@@ -6,10 +6,13 @@ services:
     restart: always
     env_file:
       - postService/.env
+    expose:
+      - 5481
     ports:
-      - 5481:5432
+      - 5481:5481
     volumes:
       - post-data:/var/lib/postgresql/post
+    command: -p 5481
   post-service:
     build: ./postService
     ports: 
@@ -21,10 +24,11 @@ services:
     restart: always
     env_file:
       - commentService/.env
-    ports:
-      - 5482:5432
+    expose:
+      - 5482
     volumes:
       - comment-data:/var/lib/postgresql/comment
+    command: -p 5482
   comment-service:
     build: ./commentService
     ports: 
