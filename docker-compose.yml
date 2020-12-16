@@ -8,8 +8,6 @@ services:
       - postService/.env
     expose:
       - 5481
-    ports:
-      - 5481:5481
     volumes:
       - post-data:/var/lib/postgresql/post
     command: -p 5481
@@ -35,6 +33,22 @@ services:
       - "8082:8082"
     depends_on:
       - "comment-database"
+  user-database:
+    image: postgres
+    restart: always
+    env_file:
+      - userService/.env
+    expose:
+      - 5483
+    volumes:
+      - comment-data:/var/lib/postgresql/comment
+    command: -p 5483
+  user-service:
+    build: ./userService
+    ports: 
+      - "8083:8083"
+    depends_on:
+      - "user-database"
   pgadmin:
     container_name: pgadmin_container
     image: dpage/pgadmin4
